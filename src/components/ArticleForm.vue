@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="onSubmit">
+	<n-form @submit.prevent="onSubmit">
 		<label for="">
 			Category <br />
 			<select v-model="formData.categoryId">
@@ -14,28 +14,30 @@
 			</select>
 		</label>
 
-		<div>
-			<label for="">
-				Title <br />
-				<input type="text" v-model="formData.title" />
-			</label>
-		</div>
+		<n-form-item label="標題" path="formData.title">
+			<n-input v-model:value="formData.title" placeholder="標題" />
+		</n-form-item>
+
+		<n-form-item label="內容" path="formData.content">
+			<n-input
+				v-model:value="formData.content"
+				type="textarea"
+				placeholder="Content"
+				:autosize="{
+					minRows: 3,
+				}"
+			/>
+		</n-form-item>
 
 		<div>
-			<label for="">
-				Content <br />
-				<textarea v-model="formData.content"></textarea>
-			</label>
+			<n-button attr-type="submit" type="primary">Submit</n-button>
 		</div>
-
-		<div>
-			<button type="submit">Submit</button>
-		</div>
-	</form>
+	</n-form>
 </template>
 
 <script setup>
 	import { reactive } from "vue";
+	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
 
 	import { topLevelCategories } from "../store/categories.js";
 	import { addToList } from "../store/articles.js";
