@@ -27,6 +27,7 @@
 					:collapsed-icon-size="22"
 					:options="data"
 					v-model:value="activeKey"
+					@update:value="setCategory"
 				/>
 			</n-layout-sider>
 			<n-layout>
@@ -71,6 +72,10 @@
 	watch(activeKey, (newVal) => {
 		currentCategory.value = findById(newVal);
 	});
+
+	function setCategory(val) {
+		console.log(val);
+	}
 </script>
 
 <style>
