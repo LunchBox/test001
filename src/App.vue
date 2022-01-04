@@ -6,6 +6,7 @@
 		NLayoutContent,
 		NLayoutFooter,
 		NLayoutSider,
+		NDivider,
 	} from "naive-ui";
 
 	import SiteHeader from "./components/SiteHeader.vue";
@@ -35,7 +36,9 @@
 						:key="doc.id"
 						:article="doc"
 					/>
+					<n-divider />
 					<CategoryForm />
+					<n-divider />
 					<ArticleForm />
 				</n-layout-content>
 			</n-layout>

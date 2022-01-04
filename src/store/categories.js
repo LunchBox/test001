@@ -11,7 +11,7 @@ import useAutoSaveList from "./useAutoSaveList.js";
 // 	return list.value.find((cate) => cate.id === id);
 // }
 
-const { list, nextId, findById } = useAutoSaveList("categories");
+const { list, nextId, findById, idCounter } = useAutoSaveList("categories");
 
 function addToList(name, parentId = null) {
 	// TODO: validation will be placed here
@@ -62,6 +62,8 @@ function loadFromStorage() {
 			}
 		});
 	}
+
+	idCounter.value = window.localStorage.getItem("categories_counter") || 0;
 }
 
 loadFromStorage();

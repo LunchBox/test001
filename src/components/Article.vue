@@ -15,7 +15,7 @@
 	});
 
 	const articleContent = computed(() => {
-		if (props.article) {
+		if (props.article && props.article.content) {
 			return marked(props.article.content);
 		}
 	});

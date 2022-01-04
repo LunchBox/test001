@@ -15,7 +15,7 @@ import useAutoSaveList from "./useAutoSaveList.js";
 // 	return list.value.find((cate) => cate.id === id);
 // }
 
-const { list, nextId, findById } = useAutoSaveList("articles");
+const { list, nextId, findById, idCounter } = useAutoSaveList("articles");
 
 function addToList(title, content, categoryId = null) {
 	const id = nextId();
@@ -61,6 +61,8 @@ function loadFromStorage() {
 			}
 		});
 	}
+
+	idCounter.value = window.localStorage.getItem("articles_counter") || 0;
 }
 
 loadFromStorage();

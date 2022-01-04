@@ -1,34 +1,49 @@
 <template>
-	<form @submit.prevent="onSubmit">
-		<label for="">
-			Parent <br />
-			<select v-model="formData.parentId">
-				<option :value="null">- Top Level -</option>
-				<option
-					v-for="category in topLevelCategories"
-					:key="category.name"
-					:value="category.id"
-				>
-					{{ category.name }}
-				</option>
-			</select>
-		</label>
+	<n-form @submit.prevent="onSubmit">
+		<n-form-item label="父級分類" path="formData.parentId">
+			<n-cascader
+				v-model:value="formData.parentId"
+				placeholder="placeholder"
+				:expand-trigger="'click'"
+				:options="options"
+			/>
+		</n-form-item>
 
-		<label for="">
-			Name <br />
-			<input type="text" v-model="formData.name" />
-		</label>
+		<n-form-item label="名稱" path="formData.name">
+			<n-input v-model:value="formData.name" placeholder="名稱" />
+		</n-form-item>
 
 		<div>
-			<button type="submit">Submit</button>
+			<n-button attr-type="submit" type="primary">Submit</n-button>
 		</div>
-	</form>
+	</n-form>
 </template>
 
 <script setup>
-	import { reactive } from "vue";
+	import { reactive, computed } from "vue";
+	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
+	import { NCascader } from "naive-ui";
 
 	import { addToList, topLevelCategories } from "../store/categories.js";
+
+	function getOptions(categories = []) {
+		return categories.map((cate) => {
+			const option = {
+				value: cate.id,
+				label: cate.name,
+			};
+			if (cate.$children && cate.$children.length > 0) {
+				option.children = getOptions(cate.$children);
+			}
+			return option;
+		});
+	}
+
+	const options = computed(() => {
+		return getOptions(topLevelCategories.value);
+	});
+
+	// const options = getOptions(topLevelCategories.value);
 
 	const formData = reactive({
 		name: null,

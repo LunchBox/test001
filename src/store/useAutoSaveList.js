@@ -20,6 +20,8 @@ export default function (itemKey) {
 			itemKey,
 			JSON.stringify(list.value, propertyFilter),
 		);
+
+		window.localStorage.setItem(itemKey + "_counter", idCounter.value);
 	}
 
 	watch(
@@ -36,6 +38,7 @@ export default function (itemKey) {
 
 	return {
 		list,
+		idCounter,
 		nextId,
 		findById,
 	};
