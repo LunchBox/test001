@@ -62,7 +62,7 @@ function loadFromStorage() {
 		});
 	}
 
-	idCounter.value = window.localStorage.getItem("articles_counter") || 0;
+	idCounter.value = +window.localStorage.getItem("articles_counter");
 }
 
 loadFromStorage();
