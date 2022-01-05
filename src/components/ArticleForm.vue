@@ -1,6 +1,6 @@
 <template>
 	<n-form @submit.prevent="onSubmit">
-		<n-form-item label="分類" path="formData.categoryId">
+		<n-form-item v-if="!category" label="分類" path="formData.categoryId">
 			<n-cascader
 				v-model:value="formData.categoryId"
 				placeholder="placeholder"
@@ -37,6 +37,12 @@
 
 	import { topLevelCategories } from "../store/categories.js";
 	import { addToList } from "../store/articles.js";
+          
+  import Category from "../models/category.js"; 
+
+  const props = defineProps({
+    category: Category
+  });
 
 	function getOptions(categories = []) {
 		return categories.map((cate) => {
@@ -63,8 +69,10 @@
 
 	function onSubmit() {
 		const { title, content, categoryId } = formData;
+    
+    const cid = props.category ? props.category.id : categoryId;
 
-		addToList(title, content, categoryId);
+		addToList(title, content, cid);
 
 		formData.categoryId = null;
 		formData.title = null;

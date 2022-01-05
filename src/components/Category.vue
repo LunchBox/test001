@@ -2,10 +2,13 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
+import { NDivider } from "naive-ui";
+
 import { findById } from "../store/categories.js";
 
 import Category from "../models/category.js";
 import Article from "../components/Article.vue";
+import ArticleForm from "../components/ArticleForm.vue";
 
 
 const route = useRoute();
@@ -24,6 +27,10 @@ const articles = computed(() => category.value ? category.value.$articles : []);
       :key="article.id"
       :article="article"
     />
+    <n-divider />
+
+    <h3>Add Article</h3>
+    <ArticleForm :category="category" />
   </div>
 </template>
 
