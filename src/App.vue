@@ -8,6 +8,9 @@
 		NLayoutFooter,
 		NLayoutSider,
 		NDivider,
+    NButton,
+    NDrawer,
+    NDrawerContent,
 	} from "naive-ui";
 
 	import SiteHeader from "./components/SiteHeader.vue";
@@ -20,6 +23,8 @@
 	import { currentArticles } from "./store/current.js";
 
   const collapsed = ref(false);
+
+  const showDrawer = ref(false);
 </script>
 
 <template>
@@ -42,14 +47,19 @@
         <SiteMenus />
 				</n-layout-sider>
 				<n-layout-content content-style="padding: 24px;">
+          <n-button @click="showDrawer = true">Add Article</n-button>
           <router-view></router-view>
 					<n-divider />
 					<CategoryForm />
-					<n-divider />
-					<ArticleForm />
 				</n-layout-content>
 			</n-layout>
 		</n-layout>
+
+    <n-drawer v-model:show="showDrawer" :width="502"> 
+      <n-drawer-content title="Article Form">
+        <ArticleForm />
+      </n-drawer-content>
+    </n-drawer> 
 	</n-space>
 </template>
 
