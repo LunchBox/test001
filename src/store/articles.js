@@ -7,15 +7,9 @@ import { findById as findCategoryById } from "./categories.js";
 
 import useAutoSaveList from "./useAutoSaveList.js";
 
-// const idCounter = ref(0);
+const ITEM_KEY = "articles";
 
-// const list = ref([]);
-
-// function findById(id) {
-// 	return list.value.find((cate) => cate.id === id);
-// }
-
-const { list, nextId, findById, idCounter } = useAutoSaveList("articles");
+const { list, nextId, findById, idCounter } = useAutoSaveList(ITEM_KEY);
 
 function addToList(title, content, categoryId = null) {
 	const id = nextId();
@@ -34,15 +28,9 @@ function addToList(title, content, categoryId = null) {
 	list.value.push(article);
 }
 
-// function saveToStorage() {
-// 	window.localStorage.setItem(
-// 		"articles",
-// 		JSON.stringify(list.value, propertyFilter),
-// 	);
-// }
 
 function loadFromStorage() {
-	const item = window.localStorage.getItem("articles");
+	const item = window.localStorage.getItem(ITEM_KEY);
 	if (typeof item === "string") {
 		const data = JSON.parse(item);
 
@@ -62,7 +50,7 @@ function loadFromStorage() {
 		});
 	}
 
-	idCounter.value = +window.localStorage.getItem("articles_counter");
+	idCounter.value = +window.localStorage.getItem(ITEM_KEY + "_counter");
 }
 
 loadFromStorage();
