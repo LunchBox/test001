@@ -17,8 +17,8 @@
 	import SiteMenus from "./components/SiteMenus.vue";
 	import Article from "./components/Article.vue";
 
-	import CategoryForm from "./components/CategoryForm.vue";
-	import ArticleForm from "./components/ArticleForm.vue";
+	import CategoryForm from "./components/_CategoryForm.vue";
+	import ArticleForm from "./components/_ArticleForm.vue";
 
 	import { currentArticles } from "./store/current.js";
 
@@ -30,7 +30,7 @@
 <template>
 	<n-space vertical size="large">
 		<n-layout>
-			<n-layout-header style="padding: 24px" bordered>
+			<n-layout-header style="padding: 12px 24px" bordered>
 				<SiteHeader />
 			</n-layout-header>
 			<n-layout has-sider>
@@ -45,12 +45,9 @@
           @expand="collapsed = false"
         >
           <SiteMenus />
-          <n-button @click="showDrawer = true">Add Article</n-button>
 				</n-layout-sider>
 				<n-layout-content content-style="padding: 24px;">
           <router-view></router-view>
-					<n-divider />
-					<CategoryForm />
 				</n-layout-content>
 			</n-layout>
 		</n-layout>

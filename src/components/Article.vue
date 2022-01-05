@@ -1,15 +1,19 @@
 <template>
 	<article v-if="article">
-		<h1>{{ article.title }}</h1>
-		<div v-html="articleContent"></div>
-    <div>
-      <router-link :to="`/articles/${article.id}/edit`">Edit</router-link>
+    <div style="display: flex">
+      <h1 style="margin-right: 1em;">{{ article.title }}</h1>
+      <n-button @click="edit" text>
+        Edit
+      </n-button>
     </div>
+    <div v-html="articleContent"></div>
 	</article>
 </template>
 
 <script setup>
 	import { computed } from "vue";
+  import { useRouter } from "vue-router";
+  import { NButton, NGrid, NGridItem } from "naive-ui";
 	import Article from "../models/article.js";
 	import { marked } from "marked";
 
@@ -22,6 +26,11 @@
 			return marked(props.article.content);
 		}
 	});
+
+  const router = useRouter();
+  function edit() {
+    router.push({path: `/articles/${props.article.id}/edit`})
+  }
 </script>
 
 <style>

@@ -8,7 +8,7 @@ import { findById } from "../store/categories.js";
 
 import Category from "../models/category.js";
 import Article from "../components/Article.vue";
-import ArticleForm from "../components/ArticleForm.vue";
+import ArticleForm from "../components/_ArticleForm.vue";
 
 import CategoryBreadcrumb from "../components/CategoryBreadcrumb.vue";
 
@@ -29,7 +29,6 @@ const articles = computed(() => category.value ? category.value.$articles : []);
       <Article
         :article="article"
       />
-      <n-divider />
     </template>
 
 

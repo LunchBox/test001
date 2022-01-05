@@ -1,100 +1,25 @@
-<template>
-	<n-form @submit.prevent="onSubmit">
-    <h3>Add Article</h3>
-
-		<n-form-item v-if="!category" label="分類" path="formData.categoryId">
-			<n-cascader
-				v-model:value="formData.categoryId"
-				placeholder="placeholder"
-				:expand-trigger="'click'"
-				:options="options"
-			/>
-		</n-form-item>
-
-		<n-form-item label="標題" path="formData.title">
-			<n-input v-model:value="formData.title" placeholder="標題" />
-		</n-form-item>
-
-		<n-form-item label="內容" path="formData.content">
-			<n-input
-				v-model:value="formData.content"
-				type="textarea"
-				placeholder="Content"
-				:autosize="{
-					minRows: 3,
-				}"
-			/>
-		</n-form-item>
-
-		<div>
-			<n-button attr-type="submit" type="primary">Submit</n-button>
-		</div>
-	</n-form>
-</template>
-
 <script setup>
-	import { ref, reactive, computed, watch} from "vue";
-	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
-	import { NCascader } from "naive-ui";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
-	import { topLevelCategories } from "../store/categories.js";
-	import { addToList } from "../store/articles.js";
-          
-  import Category from "../models/category.js"; 
-  import Article from "../models/article.js";
+import { findById } from "../store/articles.js";
 
-  const props = defineProps({
-    category: Category,
-    article: Article
-  });
+import ArticleForm from "../components/_ArticleForm.vue";
 
-	function getOptions(categories = []) {
-		return categories.map((cate) => {
-			const option = {
-				value: cate.id,
-				label: cate.name,
-			};
-			if (cate.$children && cate.$children.length > 0) {
-				option.children = getOptions(cate.$children);
-			}
-			return option;
-		});
-	}
+import CategoryBreadcrumb from "../components/CategoryBreadcrumb.vue";
 
-	const options = computed(() => {
-		return getOptions(topLevelCategories.value);
-	});
+const route = useRoute();
 
-	const formData = reactive({
-		categoryId: null,
-		title: null,
-		content: null,
-	});
-
-  const editing = ref(null);
-
-  watch(() => props.article, (newVal) => {
-    if (newVal){
-      formData.categoryId = newVal.categoryId;
-      formData.title = newVal.title;
-      formData.content = newVal.content;
-
-      editing.value = newVal;
-    }
-  }, { immediate: true });
-
-	function onSubmit() {
-		const { title, content, categoryId } = formData;
-    
-    const cid = props.category ? props.category.id : categoryId;
-
-		addToList(title, content, cid);
-
-		formData.categoryId = null;
-		formData.title = null;
-		formData.content = null;
-	}
+const article = computed(() => findById(route.params.id));
 </script>
+
+<template>
+  <div>
+    <CategoryBreadcrumb v-if="article" :category="article.$category" />
+
+    <ArticleForm :article="article" />
+  </div>
+</template>
 
 <style>
 </style>

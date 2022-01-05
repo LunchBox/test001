@@ -1,64 +1,25 @@
-<template>
-	<n-form @submit.prevent="onSubmit">
-		<n-form-item label="父級分類" path="formData.parentId">
-			<n-cascader
-				v-model:value="formData.parentId"
-				placeholder="placeholder"
-				:expand-trigger="'click'"
-				:options="options"
-			/>
-		</n-form-item>
-
-		<n-form-item label="名稱" path="formData.name">
-			<n-input v-model:value="formData.name" placeholder="名稱" />
-		</n-form-item>
-
-		<div>
-			<n-button attr-type="submit" type="primary">Submit</n-button>
-		</div>
-	</n-form>
-</template>
-
 <script setup>
-	import { reactive, computed } from "vue";
-	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
-	import { NCascader } from "naive-ui";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
-	import { addToList, topLevelCategories } from "../store/categories.js";
+import { findById } from "../store/categories.js";
 
-	function getOptions(categories = []) {
-		return categories.map((cate) => {
-			const option = {
-				value: cate.id,
-				label: cate.name,
-			};
-			if (cate.$children && cate.$children.length > 0) {
-				option.children = getOptions(cate.$children);
-			}
-			return option;
-		});
-	}
+import CategoryForm from "../components/_CategoryForm.vue";
 
-	const options = computed(() => {
-		return getOptions(topLevelCategories.value);
-	});
+import CategoryBreadcrumb from "../components/CategoryBreadcrumb.vue";
 
-	// const options = getOptions(topLevelCategories.value);
+const route = useRoute();
 
-	const formData = reactive({
-		name: null,
-		parentId: null,
-	});
-
-	function onSubmit() {
-		const { name, parentId } = formData;
-
-		addToList(name, parentId);
-
-		formData.name = null;
-		formData.parentId = null;
-	}
+const category = computed(() => findById(route.params.id));
 </script>
+
+<template>
+  <div> 
+    <CategoryBreadcrumb v-if="category" :category="category" />
+
+    <CategoryForm :category="category" />
+  </div>
+</template>
 
 <style>
 </style>

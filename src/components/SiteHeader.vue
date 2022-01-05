@@ -1,8 +1,33 @@
 <template>
-	<router-link to="/">Documents</router-link>
+	<n-grid x-gap="12" :cols="3">
+    <n-grid-item>
+			<router-link to="/">Documents</router-link>
+    </n-grid-item>
+    <n-grid-item>
+      <div class="green"></div>
+    </n-grid-item>
+    <n-grid-item>
+      <n-space justify="end">
+        <n-button quaternary @click="addArticle">Add Article</n-button>
+        <n-button quaternary @click="addCategory">Add Category</n-button>
+      </n-space>
+    </n-grid-item>
+  </n-grid>
 </template>
 
-<script>
+<script setup>
+  import { useRouter } from "vue-router";
+  import { NGrid, NGridItem, NButton, NSpace } from "naive-ui";
+
+  const router = useRouter();
+
+  function addArticle(){
+    router.push({ path: `/articles/add` });
+  }
+
+  function addCategory(){
+    router.push({ path: `/categories/add` });
+  }
 </script>
 
 <style scoped>
