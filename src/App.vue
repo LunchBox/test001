@@ -44,10 +44,10 @@
           @collapse="collapsed = true"
           @expand="collapsed = false"
         >
-        <SiteMenus />
+          <SiteMenus />
+          <n-button @click="showDrawer = true">Add Article</n-button>
 				</n-layout-sider>
 				<n-layout-content content-style="padding: 24px;">
-          <n-button @click="showDrawer = true">Add Article</n-button>
           <router-view></router-view>
 					<n-divider />
 					<CategoryForm />

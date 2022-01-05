@@ -10,6 +10,7 @@ import Category from "../models/category.js";
 import Article from "../components/Article.vue";
 import ArticleForm from "../components/ArticleForm.vue";
 
+import CategoryBreadcrumb from "../components/CategoryBreadcrumb.vue";
 
 const route = useRoute();
 
@@ -21,7 +22,8 @@ const articles = computed(() => category.value ? category.value.$articles : []);
 
 <template>
   <div v-if="category">
-    <h1>Articles in {{ category.name }}</h1>
+    <CategoryBreadcrumb :category="category" />
+    <h1># {{ category.name }}</h1>
     <Article
       v-for="article in articles"
       :key="article.id"
