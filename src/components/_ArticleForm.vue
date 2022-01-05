@@ -38,7 +38,7 @@
 	import { NCascader } from "naive-ui";
 
 	import { topLevelCategories } from "../store/categories.js";
-	import { addToList } from "../store/articles.js";
+	import { addToList, update } from "../store/articles.js";
           
   import Category from "../models/category.js"; 
   import Article from "../models/article.js";
@@ -88,7 +88,12 @@
     
     const cid = props.category ? props.category.id : categoryId;
 
-		addToList(title, content, cid);
+    if (!editing.value){ 
+      addToList(title, content, cid);
+    } else {
+      update(editing.value, title, content, cid)
+      editing.value = null;
+    }
 
 		formData.categoryId = null;
 		formData.title = null;
