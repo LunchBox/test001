@@ -43,12 +43,6 @@
 				</n-layout-sider>
 				<n-layout-content content-style="padding: 24px;">
           <router-view></router-view>
-					<Article />
-					<Article
-						v-for="doc in currentArticles"
-						:key="doc.id"
-						:article="doc"
-					/>
 					<n-divider />
 					<CategoryForm />
 					<n-divider />

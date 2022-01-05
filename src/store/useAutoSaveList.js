@@ -12,7 +12,7 @@ export default function (itemKey) {
 	const list = ref([]);
 
 	function findById(id) {
-		return list.value.find((cate) => cate.id === id);
+		return list.value.find((cate) => cate.id === +id);
 	}
 
 	function saveToStorage() {

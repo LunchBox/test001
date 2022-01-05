@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-	import { ref, computed, watch, h } from "vue";
+	import { ref, computed, watch, h, resolveComponent } from "vue";
 	import { NTree, NSpace, NLayout, NLayoutSider, NMenu, NSwitch } from "naive-ui";
 	import { findById, topLevelCategories } from "../store/categories";
 	import { currentCategory } from "../store/current";
@@ -24,7 +24,7 @@
 	function getData(categories = []) {
 		return categories.map((cate) => {
 			const option = {
-        label: () => h('a', {}, cate.name),
+        label: () => h(resolveComponent('router-link'), { to: { path: `/categories/${cate.id}`}}, { default: () => cate.name}),
 				key: cate.id,
 			};
 
