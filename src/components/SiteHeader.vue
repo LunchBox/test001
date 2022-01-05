@@ -1,5 +1,5 @@
 <template>
-	<a>Vue.js</a>
+	<a>Documents</a>
 </template>
 
 <script>

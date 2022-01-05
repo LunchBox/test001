@@ -1,4 +1,5 @@
 <script setup>
+  import { ref } from "vue";
 	import {
 		NSpace,
 		NLayout,
@@ -17,6 +18,8 @@
 	import ArticleForm from "./components/ArticleForm.vue";
 
 	import { currentArticles } from "./store/current.js";
+
+  const collapsed = ref(false);
 </script>
 
 <template>
@@ -26,8 +29,17 @@
 				<SiteHeader />
 			</n-layout-header>
 			<n-layout has-sider>
-				<n-layout-sider content-style="padding: 24px;" bordered>
-					<SiteMenus />
+				<n-layout-sider content-style="padding: 24px;" 
+          bordered
+          collapse-mode="width"
+          :collapsed-width="64"
+          :width="240"
+          :collapsed="collapsed"
+          show-trigger
+          @collapse="collapsed = true"
+          @expand="collapsed = false"
+        >
+        <SiteMenus />
 				</n-layout-sider>
 				<n-layout-content content-style="padding: 24px;">
 					<Article />
