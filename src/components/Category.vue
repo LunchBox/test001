@@ -24,14 +24,15 @@ const articles = computed(() => category.value ? category.value.$articles : []);
   <div v-if="category">
     <CategoryBreadcrumb :category="category" />
     <h1># {{ category.name }}</h1>
-    <Article
-      v-for="article in articles"
-      :key="article.id"
-      :article="article"
-    />
-    <n-divider />
 
-    <h3>Add Article</h3>
+    <template v-for="article in articles">
+      <Article
+        :article="article"
+      />
+      <n-divider />
+    </template>
+
+
     <ArticleForm :category="category" />
   </div>
 </template>

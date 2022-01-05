@@ -2,6 +2,9 @@
 	<article v-if="article">
 		<h1>{{ article.title }}</h1>
 		<div v-html="articleContent"></div>
+    <div>
+      <router-link :to="`/articles/${article.id}/edit`">Edit</router-link>
+    </div>
 	</article>
 </template>
 

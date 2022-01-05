@@ -1,5 +1,7 @@
 <template>
 	<n-form @submit.prevent="onSubmit">
+    <h3>Add Article</h3>
+
 		<n-form-item v-if="!category" label="分類" path="formData.categoryId">
 			<n-cascader
 				v-model:value="formData.categoryId"
@@ -31,7 +33,7 @@
 </template>
 
 <script setup>
-	import { reactive, computed } from "vue";
+	import { ref, reactive, computed, watch} from "vue";
 	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
 	import { NCascader } from "naive-ui";
 
@@ -39,9 +41,11 @@
 	import { addToList } from "../store/articles.js";
           
   import Category from "../models/category.js"; 
+  import Article from "../models/article.js";
 
   const props = defineProps({
-    category: Category
+    category: Category,
+    article: Article
   });
 
 	function getOptions(categories = []) {
@@ -66,6 +70,18 @@
 		title: null,
 		content: null,
 	});
+
+  const editing = ref(null);
+
+  watch(() => props.article, (newVal) => {
+    if (newVal){
+      formData.categoryId = newVal.categoryId;
+      formData.title = newVal.title;
+      formData.content = newVal.content;
+
+      editing.value = newVal;
+    }
+  }, { immediate: true });
 
 	function onSubmit() {
 		const { title, content, categoryId } = formData;

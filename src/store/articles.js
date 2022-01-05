@@ -55,4 +55,4 @@ function loadFromStorage() {
 
 loadFromStorage();
 
-export { list, addToList };
+export { list, addToList, findById };
