@@ -1,9 +1,9 @@
 <template>
 	<n-form @submit.prevent="onSubmit">
-    <h3>
-      Add Article
-      <span v-if="category">for {{ category.name }}</span>
-    </h3>
+		<h3>
+			Add Article
+			<span v-if="category">for {{ category.name }}</span>
+		</h3>
 
 		<n-form-item label="標題" path="formData.title">
 			<n-input v-model:value="formData.title" placeholder="標題" />
@@ -29,7 +29,6 @@
 			/>
 		</n-form-item>
 
-
 		<div>
 			<n-button attr-type="submit" type="primary">Submit</n-button>
 		</div>
@@ -37,20 +36,20 @@
 </template>
 
 <script setup>
-	import { ref, reactive, computed, watch} from "vue";
+	import { ref, reactive, computed, watch } from "vue";
 	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
 	import { NCascader } from "naive-ui";
 
-	import { topLevelCategories } from "../store/categories.js";
-	import { addToList, update } from "../store/articles.js";
-          
-  import Category from "../models/category.js"; 
-  import Article from "../models/article.js";
+	import { topLevelCategories } from "@/store/categories.js";
+	import { addToList, update } from "@/store/articles.js";
 
-  const props = defineProps({
-    category: Category,
-    article: Article
-  });
+	import Category from "@/models/category.js";
+	import Article from "@/models/article.js";
+
+	const props = defineProps({
+		category: Category,
+		article: Article,
+	});
 
 	function getOptions(categories = []) {
 		return categories.map((cate) => {
@@ -75,29 +74,33 @@
 		content: null,
 	});
 
-  const editing = ref(null);
+	const editing = ref(null);
 
-  watch(() => props.article, (newVal) => {
-    if (newVal){
-      formData.categoryId = newVal.categoryId;
-      formData.title = newVal.title;
-      formData.content = newVal.content;
+	watch(
+		() => props.article,
+		(newVal) => {
+			if (newVal) {
+				formData.categoryId = newVal.categoryId;
+				formData.title = newVal.title;
+				formData.content = newVal.content;
 
-      editing.value = newVal;
-    }
-  }, { immediate: true });
+				editing.value = newVal;
+			}
+		},
+		{ immediate: true }
+	);
 
 	function onSubmit() {
 		const { title, content, categoryId } = formData;
-    
-    const id = props.category ? props.category.id : categoryId;
 
-    if (!editing.value){ 
-      addToList(title, content, id);
-    } else {
-      update(editing.value, title, content, id)
-      editing.value = null;
-    }
+		const id = props.category ? props.category.id : categoryId;
+
+		if (!editing.value) {
+			addToList(title, content, id);
+		} else {
+			update(editing.value, title, content, id);
+			editing.value = null;
+		}
 
 		formData.categoryId = null;
 		formData.title = null;

@@ -24,7 +24,7 @@
 	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
 	import { NCascader } from "naive-ui";
 
-	import { addToList, topLevelCategories } from "../store/categories.js";
+	import { addToList, topLevelCategories } from "@/store/categories.js";
 
 	function getOptions(categories = []) {
 		return categories.map((cate) => {
