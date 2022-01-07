@@ -20,11 +20,19 @@
 </template>
 
 <script setup>
-	import { reactive, computed } from "vue";
-	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
+	import { ref, reactive, computed, watch } from "vue";
+	import { NForm, NFormItem, NInput } from "naive-ui";
 	import { NCascader } from "naive-ui";
 
+	import Category from "@/models/category.js";
+	import Project from "@/models/project.js";
 	import { addToList, topLevelCategories } from "@/store/categories.js";
+
+	const props = defineProps({
+		parent: Category,
+		category: Category,
+		project: Project,
+	});
 
 	function getOptions(categories = []) {
 		return categories.map((cate) => {
@@ -43,21 +51,36 @@
 		return getOptions(topLevelCategories.value);
 	});
 
-	// const options = getOptions(topLevelCategories.value);
+	const editing = ref(null);
 
 	const formData = reactive({
 		name: null,
 		parentId: null,
+		projectId: null,
 	});
 
-	function onSubmit() {
-		const { name, parentId } = formData;
-
-		addToList(name, parentId);
-
+	function reset() {
 		formData.name = null;
+		formData.projectId = null;
 		formData.parentId = null;
+
+		editing.value = null;
 	}
+	function onSubmit() {
+		addToList({ ...formData });
+		reset();
+	}
+
+	watch(
+		() => props.parent,
+		(cate) => {
+			console.log(cate);
+			if (cate) {
+				formData.parentId = cate.id;
+			}
+		},
+		{ immediate: true }
+	);
 </script>
 
 <style>

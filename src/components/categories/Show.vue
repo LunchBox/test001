@@ -29,7 +29,7 @@
 	function addCategory() {
 		router.push({
 			path: `/categories/new`,
-			query: { categoiryId: category.value.id },
+			query: { categoryId: category.value.id },
 		});
 	}
 

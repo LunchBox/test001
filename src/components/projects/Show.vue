@@ -13,11 +13,22 @@
 	const router = useRouter();
 
 	const project = computed(() => findById(route.params.id));
+
+	function addCategory() {
+		router.push({
+			path: `/categories/new`,
+			query: { projectId: project.value.id },
+		});
+	}
 </script>
 
 <template>
 	<div v-if="project">
 		<Project :project="project" />
+
+		<n-space justify="end">
+			<n-button quaternary @click="addCategory">Add Category</n-button>
+		</n-space>
 	</div>
 </template>
 
