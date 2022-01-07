@@ -3,7 +3,7 @@
 	import { useRoute, useRouter } from "vue-router";
 
 	import { NDivider } from "naive-ui";
-	import { NDataTable, NButton, NSpace } from "naive-ui";
+	import { NDataTable } from "naive-ui";
 
 	import { findById } from "@/store/categories.js";
 	import Category from "@/models/category.js";

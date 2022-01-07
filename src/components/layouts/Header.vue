@@ -20,7 +20,7 @@
 
 <script setup>
 	import { useRouter } from "vue-router";
-	import { NGrid, NGridItem, NButton, NSpace } from "naive-ui";
+	import { NGrid, NGridItem } from "naive-ui";
 
 	const router = useRouter();
 

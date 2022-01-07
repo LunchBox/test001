@@ -1,14 +1,12 @@
 <script setup>
 	import { ref } from "vue";
 	import {
-		NSpace,
 		NLayout,
 		NLayoutHeader,
 		NLayoutContent,
 		NLayoutFooter,
 		NLayoutSider,
 		NDivider,
-		NButton,
 		NDrawer,
 		NDrawerContent,
 	} from "naive-ui";

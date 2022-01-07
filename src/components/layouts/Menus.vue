@@ -13,7 +13,7 @@
 
 <script setup>
 	import { ref, computed, watch, h, resolveComponent } from "vue";
-	import { NTree, NSpace, NLayout, NLayoutSider, NMenu, NSwitch } from "naive-ui";
+	import { NTree, NLayout, NLayoutSider, NMenu, NSwitch } from "naive-ui";
 	import { findById, topLevelCategories } from "@/store/categories";
 	import { currentCategory } from "@/store/current";
 
