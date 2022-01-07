@@ -15,7 +15,7 @@
 
 	import SiteHeader from "./components/SiteHeader.vue";
 	import SiteMenus from "./components/SiteMenus.vue";
-	import Article from "./components/Article.vue";
+	import Article from "./components/_Article.vue";
 
 	import CategoryForm from "./components/_CategoryForm.vue";
 	import ArticleForm from "./components/_ArticleForm.vue";

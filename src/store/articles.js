@@ -55,11 +55,11 @@ function loadFromStorage() {
 
 loadFromStorage();
 
-function update(article, title, content, cid){
-  console.log("--", article, title, content, cid);
+function update(article, title, content, categoryId){
+  console.log("--", article, title, content, categoryId);
   article.title = title
   article.content = content
-  article.categoryId = cid
+  article.categoryId = categoryId
 } 
 
 export { list, addToList, findById, update };

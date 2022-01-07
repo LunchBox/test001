@@ -90,12 +90,12 @@
 	function onSubmit() {
 		const { title, content, categoryId } = formData;
     
-    const cid = props.category ? props.category.id : categoryId;
+    const id = props.category ? props.category.id : categoryId;
 
     if (!editing.value){ 
-      addToList(title, content, cid);
+      addToList(title, content, id);
     } else {
-      update(editing.value, title, content, cid)
+      update(editing.value, title, content, id)
       editing.value = null;
     }
 

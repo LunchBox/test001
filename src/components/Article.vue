@@ -1,44 +1,32 @@
-<template>
-	<article v-if="article">
-    <div style="display: flex">
-      <h1 style="margin-right: 1em;" :id="`a${article.id}`">
-        <a @click.prevent="toArticle">#</a>
-        {{ article.title }}
-      </h1>
-      <n-button @click="edit" text>
-        Edit
-      </n-button>
-    </div>
-    <div v-html="articleContent"></div>
-	</article>
-</template>
-
 <script setup>
-	import { computed } from "vue";
-  import { useRouter } from "vue-router";
-  import { NButton, NGrid, NGridItem } from "naive-ui";
-	import Article from "../models/article.js";
-	import { marked } from "marked";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
-	const props = defineProps({
-		article: Article,
-	});
+import { NDivider } from "naive-ui";
+import { NDataTable } from "naive-ui";
 
-	const articleContent = computed(() => {
-		if (props.article && props.article.content) {
-			return marked(props.article.content);
-		}
-	});
+import { findById } from "../store/articles.js";
 
-  const router = useRouter();
-  function edit() {
-    router.push({path: `/articles/${props.article.id}/edit`})
-  }
+import Category from "../models/category.js";
+import Article from "../components/_Article.vue";
 
-  function toArticle(){
-    router.push({path: `/categories/${props.article.categoryId}`, hash: `#a${props.article.id}`})
-  }
+import CategoryBreadcrumb from "../components/CategoryBreadcrumb.vue";
+
+const route = useRoute();
+
+const article = computed(() => findById(route.params.id));
+
+const category = computed(() => article.value.$category);
+
 </script>
+
+<template>
+  <div v-if="article">
+    <CategoryBreadcrumb :category="category" />
+
+    <Article :article="article" />
+  </div>
+</template>
 
 <style>
 </style>
