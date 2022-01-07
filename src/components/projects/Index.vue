@@ -3,7 +3,7 @@
 	import { useRoute, useRouter } from "vue-router";
 
 	import { NDivider } from "naive-ui";
-	import { NDataTable, NButton } from "naive-ui";
+	import { NDataTable } from "naive-ui";
 
 	import { list } from "@/store/projects.js";
 
@@ -27,7 +27,7 @@
 			align: "left",
 			render(cell) {
 				return h(
-					NButton,
+					"n-button",
 					{
 						text: true,
 						onClick: () => {

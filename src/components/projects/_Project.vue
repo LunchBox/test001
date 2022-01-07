@@ -14,7 +14,7 @@
 <script setup>
 	import { computed } from "vue";
 	import { useRouter } from "vue-router";
-	import { NButton, NGrid, NGridItem } from "naive-ui";
+	import { NGrid, NGridItem } from "naive-ui";
 	import { marked } from "marked";
 
 	import Project from "@/models/project.js";

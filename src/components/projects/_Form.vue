@@ -25,7 +25,7 @@
 
 <script setup>
 	import { ref, reactive, computed, watch } from "vue";
-	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
+	import { NForm, NFormItem, NInput } from "naive-ui";
 
 	import { addToList, update } from "@/store/projects.js";
 

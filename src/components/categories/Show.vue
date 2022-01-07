@@ -45,7 +45,7 @@
 			align: "left",
 			render(cell) {
 				return h(
-					NButton,
+					"n-button",
 					{
 						text: true,
 						onClick: () => {

@@ -37,7 +37,7 @@
 
 <script setup>
 	import { ref, reactive, computed, watch } from "vue";
-	import { NForm, NFormItem, NInput, NButton } from "naive-ui";
+	import { NForm, NFormItem, NInput } from "naive-ui";
 	import { NCascader } from "naive-ui";
 
 	import { topLevelCategories } from "@/store/categories.js";
