@@ -10,6 +10,7 @@
       <n-space justify="end">
         <n-button quaternary @click="addArticle">Add Article</n-button>
         <n-button quaternary @click="addCategory">Add Category</n-button>
+        <n-button quaternary @click="toProjects">Projects</n-button>
       </n-space>
     </n-grid-item>
   </n-grid>
@@ -27,6 +28,10 @@
 
   function addCategory(){
     router.push({ path: `/categories/add` });
+  }
+
+  function toProjects(){
+    router.push({ path: `/projects` });
   }
 </script>
 

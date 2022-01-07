@@ -3,13 +3,6 @@ import Category from "../models/category.js";
 import propertyFilter from "../utils/property_filter.js";
 import useAutoSaveList from "./useAutoSaveList.js";
 
-// const idCounter = ref(0);
-
-// const list = ref([]);
-
-// function findById(id) {
-// 	return list.value.find((cate) => cate.id === id);
-// }
 
 const { list, nextId, findById, idCounter } = useAutoSaveList("categories");
 
@@ -35,12 +28,6 @@ const topLevelCategories = computed(() => {
 	return list.value.filter((cate) => cate.$parent === null);
 });
 
-// function saveToStorage() {
-// 	window.localStorage.setItem(
-// 		"categories",
-// 		JSON.stringify(list.value, propertyFilter),
-// 	);
-// }
 
 function loadFromStorage() {
 	const item = window.localStorage.getItem("categories");
@@ -67,19 +54,5 @@ function loadFromStorage() {
 }
 
 loadFromStorage();
-
-// watch(
-// 	list,
-// 	() => {
-// 		console.log("value changed, save to storage");
-
-// 		console.log(list);
-
-// 		saveToStorage();
-// 	},
-// 	{ deep: true },
-// );
-
-// const { list, findById } = useAutoSave("categories");
 
 export { list, addToList, topLevelCategories, findById };
