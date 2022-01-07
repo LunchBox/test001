@@ -1,7 +1,10 @@
 <template>
 	<article v-if="article">
     <div style="display: flex">
-      <h1 style="margin-right: 1em;">{{ article.title }}</h1>
+      <h1 style="margin-right: 1em;" :id="`a${article.id}`">
+        <a @click.prevent="toArticle">#</a>
+        {{ article.title }}
+      </h1>
       <n-button @click="edit" text>
         Edit
       </n-button>
@@ -30,6 +33,10 @@
   const router = useRouter();
   function edit() {
     router.push({path: `/articles/${props.article.id}/edit`})
+  }
+
+  function toArticle(){
+    router.push({path: `/categories/${props.article.categoryId}`, hash: `#a${props.article.id}`})
   }
 </script>
 

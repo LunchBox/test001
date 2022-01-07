@@ -1,15 +1,9 @@
 <template>
 	<n-form @submit.prevent="onSubmit">
-    <h3>Add Article</h3>
-
-		<n-form-item v-if="!category" label="分類" path="formData.categoryId">
-			<n-cascader
-				v-model:value="formData.categoryId"
-				placeholder="placeholder"
-				:expand-trigger="'click'"
-				:options="options"
-			/>
-		</n-form-item>
+    <h3>
+      Add Article
+      <span v-if="category">for {{ category.name }}</span>
+    </h3>
 
 		<n-form-item label="標題" path="formData.title">
 			<n-input v-model:value="formData.title" placeholder="標題" />
@@ -25,6 +19,16 @@
 				}"
 			/>
 		</n-form-item>
+
+		<n-form-item v-if="!category" label="分類" path="formData.categoryId">
+			<n-cascader
+				v-model:value="formData.categoryId"
+				placeholder="placeholder"
+				:expand-trigger="'click'"
+				:options="options"
+			/>
+		</n-form-item>
+
 
 		<div>
 			<n-button attr-type="submit" type="primary">Submit</n-button>
