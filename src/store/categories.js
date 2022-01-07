@@ -3,34 +3,37 @@ import Category from "../models/category.js";
 import propertyFilter from "../utils/property_filter.js";
 import useAutoSaveList from "./useAutoSaveList.js";
 
+const Model = Category;
+const storageKey = "categories";
+const counterKey = `${storageKey}_counter`;
+const { list, nextId, findById, idCounter } = useAutoSaveList(storageKey);
 
-const { list, nextId, findById, idCounter } = useAutoSaveList("categories");
-
-function addToList(name, parentId = null) {
+function create(attrs = {}) {
 	// TODO: validation will be placed here
 
+	const { name, parentId, projectId } = attrs;
+
 	const id = nextId();
-	const category = new Category(id, name);
+	const model = new Model(id, name);
 
 	if (parentId != null) {
 		const parent = findById(parentId);
 		if (parent) {
-			category.parentId = parentId;
-			category.$parent = parent;
-			parent.$children.push(category);
+			model.parentId = parentId;
+			model.$parent = parent;
+			parent.$children.push(model);
 		}
 	}
 
-	list.value.push(category);
+	list.value.push(model);
 }
 
 const topLevelCategories = computed(() => {
 	return list.value.filter((cate) => cate.$parent === null);
 });
 
-
 function loadFromStorage() {
-	const item = window.localStorage.getItem("categories");
+	const item = window.localStorage.getItem(storageKey);
 	if (typeof item === "string") {
 		const data = JSON.parse(item);
 
@@ -50,9 +53,9 @@ function loadFromStorage() {
 		});
 	}
 
-	idCounter.value = +window.localStorage.getItem("categories_counter") || 0;
+	idCounter.value = +window.localStorage.getItem(counterKey) || 0;
 }
 
 loadFromStorage();
 
-export { list, addToList, topLevelCategories, findById };
+export { list, create, topLevelCategories, findById };

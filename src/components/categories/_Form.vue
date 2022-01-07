@@ -26,7 +26,7 @@
 
 	import Category from "@/models/category.js";
 	import Project from "@/models/project.js";
-	import { addToList, topLevelCategories } from "@/store/categories.js";
+	import { create, topLevelCategories } from "@/store/categories.js";
 
 	const props = defineProps({
 		parent: Category,
@@ -67,7 +67,7 @@
 		editing.value = null;
 	}
 	function onSubmit() {
-		addToList({ ...formData });
+		create({ ...formData });
 		reset();
 	}
 
