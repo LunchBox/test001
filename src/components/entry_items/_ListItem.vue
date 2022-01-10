@@ -1,6 +1,6 @@
 <template>
   <div>
-    LI: <router-link :to="`/entries/${entry.id}`">{{ entry.name }}</router-link>
+		<div v-html="formattedComment"></div>
   </div>
 </template>
 
@@ -10,14 +10,19 @@
 	import { NGrid, NGridItem } from "naive-ui";
 	import { marked } from "marked";
 
-	import Entry from "@/models/entry.js";
+	import EntryItem from "@/models/entry_item.js";
 
 	const props = defineProps({
-		entry: Entry,
+		entryItem: EntryItem,
 	});
 
-
 	const router = useRouter();
+
+  const formattedComment = computed(() => {
+		if (props.entryItem && props.entryItem.comment) {
+			return marked(props.entryItem.comment);
+		}
+  });
 </script>
 
 <style>

@@ -2,14 +2,16 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../components/Dashboard.vue";
 
 import Projects from "../components/projects/Index.vue";
-
 import Project from "../components/projects/Show.vue";
-import Category from "../components/categories/Show.vue";
-import Article from "../components/articles/Show.vue";
-
 import ProjectForm from "../components/projects/Form.vue";
-import ArticleForm from "../components/articles/Form.vue";
+
+import Category from "../components/categories/Show.vue";
 import CategoryForm from "../components/categories/Form.vue";
+
+import Article from "../components/articles/Show.vue";
+import ArticleForm from "../components/articles/Form.vue";
+
+import EntryShow from "../components/entries/Show.vue";
 
 const routes = [
 	{ path: "/", component: Dashboard },
@@ -26,6 +28,8 @@ const routes = [
 	{ path: "/articles/:id", component: Article },
 	{ path: "/articles/new", component: ArticleForm },
 	{ path: "/articles/:id/edit", component: ArticleForm },
+
+	{ path: "/entries/:id", component: EntryShow },
 ];
 
 const router = createRouter({

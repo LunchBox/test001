@@ -7,10 +7,6 @@ class Entry extends Base {
   static attributes = {
     name: { type: "string" }
   };
-
-  constructor(attrs = {}){
-    super(attrs);
-  }
 }
 
 Entry.loadFromStorage();

@@ -5,30 +5,28 @@
 	import { NDivider } from "naive-ui";
 	import { NDataTable } from "naive-ui";
 
-	import { findById } from "@/store/projects.js";
+  import Entry from "@/models/entry.js";
+  import EntryItem from "@/models/entry_item.js";
 
-	import Project from "./_Project.vue";
+  import EntryItemView from "../entry_items/_ListItem.vue";
+  import EntryItemForm from "../entry_items/_Form.vue";
 
 	const route = useRoute();
 	const router = useRouter();
 
-	const project = computed(() => findById(route.params.id));
+	const entry = computed(() => Entry.find(route.params.id));
 
-	function addCategory() {
-		router.push({
-			path: `/categories/new`,
-			query: { projectId: project.value.id },
-		});
-	}
+  const entryItems = computed(() => EntryItem.where({ entryId: entry.value.id }));
+  console.log(entryItems);
 </script>
 
 <template>
-	<div v-if="project">
-		<Project :project="project" />
+	<div v-if="entry">
+    <h2>{{ entry.name }}</h2>
 
-		<n-space justify="end">
-			<n-button quaternary @click="addCategory">Add Category</n-button>
-		</n-space>
+    <EntryItemView v-for="ei in entryItems" :key="ei.id" :entry-item="ei" />
+
+    <EntryItemForm :entry="entry" />
 	</div>
 </template>
 

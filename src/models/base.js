@@ -2,8 +2,23 @@ import { ref, watch } from "vue";
 import propertyFilter from "../utils/property_filter.js";
 
 export default class {
-  static list = ref([]);
-	static idCounter = ref(0);
+  // static list = ref([]);
+	// static idCounter = ref(0);
+  static get list(){
+    if (!this._list) {
+      this._list = ref([]);
+    }
+
+    return this._list;
+  }
+
+  static get idCounter(){
+    if (!this._idCounter) {
+      this._idCounter = ref(0);
+    }
+
+    return this._idCounter;
+  }
 
 	static nextId() {
 		this.idCounter.value += 1;
@@ -59,8 +74,8 @@ export default class {
     return this.find(id);
 	}
 
-  static find_by(conds = {}){
-    let res = this.all;
+  static where(conds = {}){
+    let res = this.all.value;
     for(let key in conds){
       res = res.filter((model) => model[key] === conds[key]);
     }
