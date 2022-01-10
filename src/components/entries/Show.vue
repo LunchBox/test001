@@ -1,5 +1,5 @@
 <script setup>
-	import { computed, h } from "vue";
+	import { ref, computed, h } from "vue";
 	import { useRoute, useRouter } from "vue-router";
 
 	import { NDivider } from "naive-ui";
@@ -17,16 +17,25 @@
 	const entry = computed(() => Entry.find(route.params.id));
 
   const entryItems = computed(() => EntryItem.where({ entryId: entry.value.id }));
-  console.log(entryItems);
+
+  const editing = ref(null);
+  function edit(entryItem){
+    editing.value = entryItem
+  }
 </script>
 
 <template>
 	<div v-if="entry">
     <h2>{{ entry.name }}</h2>
 
-    <EntryItemView v-for="ei in entryItems" :key="ei.id" :entry-item="ei" />
+    <EntryItemView v-for="ei in entryItems" :key="ei.id" :entry-item="ei" @dblclick="edit(ei)" />
 
-    <EntryItemForm :entry="entry" />
+    <EntryItemForm 
+      :entry="entry" 
+      :entry-item="editing" 
+      @after-submit="editing = null" 
+      @cancel="editing = null" 
+    />
 	</div>
 </template>
 

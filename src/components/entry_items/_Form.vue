@@ -8,12 +8,14 @@
 				:autosize="{
 					minRows: 3,
 				}"
+        @keydown.enter.ctrl="onSubmit"
 			/>
 		</n-form-item>
 
-		<div>
+		<n-space>
 			<n-button attr-type="submit" type="primary">Submit</n-button>
-		</div>
+      <n-button attr-type="reset" quaternary @click.prevent="reset">Reset</n-button>
+		</n-space>
 	</n-form>
 </template>
 
@@ -70,18 +72,29 @@
     { immediate: true }
   );
 
+  const emit = defineEmits(['after-submit', 'cancel']);
+
 	function onSubmit() {
 		if (!editing.value) {
       // create new Item
       const model = new EntryItem({...formData});
       model.create();
 		} else {
-      editing.update({...formData});
+      editing.value.update({...formData});
 			editing.value = null;
 		}
 
     initFormData();
+
+    emit('after-submit');
 	}
+
+  function reset(){
+    editing.value = null
+    initFormData();
+
+    emit('cancel');
+  }
 </script>
 
 <style>
