@@ -9,18 +9,29 @@
       >
       M
     </n-dropdown>
-    <div v-html="formattedComment"></div>
+
+    <div style="flex: 1" >
+      <div v-html="formattedComment" @dblclick="edit"></div>
+
+      <EntryItemForm 
+        v-if="editing"
+        :entry-item="editing" 
+        @after-submit="editing = null" 
+        @cancel="editing = null" 
+      />
+    </div>
   </n-space>
 </template>
 
 <script setup>
-	import { computed } from "vue";
+	import { ref, computed } from "vue";
 	import { useRouter } from "vue-router";
 	import { NDropdown } from "naive-ui";
 
 	import { marked } from "marked";
 
 	import EntryItem from "@/models/entry_item.js";
+  import EntryItemForm from "../entry_items/_Form.vue";
 
 	const props = defineProps({
 		entryItem: EntryItem,
@@ -35,6 +46,12 @@
   });
 
   const emit = defineEmits(['edit', 'destroy']);
+
+  const editing = ref(null);
+
+  function edit(){
+    editing.value = props.entryItem;
+  }
 
   function handleSelect(val){
     emit(val);

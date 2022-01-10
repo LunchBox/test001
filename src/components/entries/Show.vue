@@ -37,8 +37,6 @@
       v-for="ei in entryItems" 
       :key="ei.id" 
       :entry-item="ei" 
-      @dblclick="edit(ei)" 
-      @edit="edit(ei)"
       @destroy="destroy(ei)"
     />
 
