@@ -22,13 +22,25 @@
   function edit(entryItem){
     editing.value = entryItem
   }
+
+  function destroy(entryItem){
+    entryItem.destroy();
+    editing.value = null;
+  }
 </script>
 
 <template>
 	<div v-if="entry">
     <h2>{{ entry.name }}</h2>
 
-    <EntryItemView v-for="ei in entryItems" :key="ei.id" :entry-item="ei" @dblclick="edit(ei)" />
+    <EntryItemView 
+      v-for="ei in entryItems" 
+      :key="ei.id" 
+      :entry-item="ei" 
+      @dblclick="edit(ei)" 
+      @edit="edit(ei)"
+      @destroy="destroy(ei)"
+    />
 
     <EntryItemForm 
       :entry="entry" 
