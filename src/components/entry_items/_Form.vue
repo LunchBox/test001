@@ -8,13 +8,15 @@
 				:autosize="{
 					minRows: 3,
 				}"
-        @keydown.enter.ctrl="onSubmit"
+				@keydown.enter.ctrl="onSubmit"
 			/>
 		</n-form-item>
 
 		<n-space>
 			<n-button attr-type="submit" type="primary">Submit</n-button>
-      <n-button attr-type="reset" quaternary @click.prevent="reset">Reset</n-button>
+			<n-button attr-type="reset" quaternary @click.prevent="reset"
+				>Reset</n-button
+			>
 		</n-space>
 	</n-form>
 </template>
@@ -25,26 +27,26 @@
 
 	import { addToList, update } from "@/store/projects.js";
 
-  import Entry from "@/models/entry.js";
-  import EntryItem from "@/models/entry_item.js";
+	import Entry from "@/models/entry.js";
+	import EntryItem from "@/models/entry_item.js";
 
 	const props = defineProps({
-    entry: Entry,
-		entryItem: EntryItem, 
+		entry: Entry,
+		entryItem: EntryItem,
 	});
 
-  const attributes = EntryItem.attributes;
+	const attributes = EntryItem.attributes;
 
 	const formData = reactive({});
-  function initFormData(){
-    for (let key in attributes){
-      formData[key] = attributes[key]?.default || null;   
-    }
+	function initFormData() {
+		for (let key in attributes) {
+			formData[key] = attributes[key]?.default || null;
+		}
 
-    formData.entryId = props.entry?.id || null;
-  }
+		formData.entryId = props.entry?.id || null;
+	}
 
-  initFormData();
+	initFormData();
 
 	const editing = ref(null);
 
@@ -52,9 +54,9 @@
 		() => props.entryItem,
 		(newVal) => {
 			if (newVal) {
-        for (let key in attributes){
-          formData[key] = newVal[key];   
-        }
+				for (let key in attributes) {
+					formData[key] = newVal[key];
+				}
 
 				editing.value = newVal;
 			}
@@ -62,39 +64,39 @@
 		{ immediate: true }
 	);
 
-  watch(
-    () => props.entry,
-    (newVal) => {
-      if (newVal) {
-        formData.entryId = newVal.id;
-      }
-    },
-    { immediate: true }
-  );
+	watch(
+		() => props.entry,
+		(newVal) => {
+			if (newVal) {
+				formData.entryId = newVal.id;
+			}
+		},
+		{ immediate: true }
+	);
 
-  const emit = defineEmits(['after-submit', 'cancel']);
+	const emit = defineEmits(["after-submit", "cancel"]);
 
 	function onSubmit() {
 		if (!editing.value) {
-      // create new Item
-      const model = new EntryItem({...formData});
-      model.create();
+			// create new Item
+			const entryItem = new EntryItem({ ...formData });
+			entryItem.create();
 		} else {
-      editing.value.update({...formData});
+			editing.value.update({ ...formData });
 			editing.value = null;
 		}
 
-    initFormData();
+		initFormData();
 
-    emit('after-submit');
+		emit("after-submit");
 	}
 
-  function reset(){
-    editing.value = null
-    initFormData();
+	function reset() {
+		editing.value = null;
+		initFormData();
 
-    emit('cancel');
-  }
+		emit("cancel");
+	}
 </script>
 
 <style>
