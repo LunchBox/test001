@@ -14,7 +14,9 @@
 	const route = useRoute();
 	const router = useRouter();
 
-	const entry = computed(() => Entry.find(route.params.id));
+	// const entry = computed(() => Entry.find(route.params.id));
+	const entry = ref(null);
+  Entry.fetch(route.params.id).then((model) => entry.value = model);
 
   const entryItems = computed(() => EntryItem.where({ entryId: entry.value.id }));
 

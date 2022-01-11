@@ -1,9 +1,8 @@
 import { ref, watch } from "vue";
 import propertyFilter from "../utils/property_filter.js";
+import axios from "axios";
 
 export default class {
-  // static list = ref([]);
-	// static idCounter = ref(0);
   static get list(){
     if (!this._list) {
       this._list = ref([]);
@@ -12,44 +11,77 @@ export default class {
     return this._list;
   }
 
-  static get idCounter(){
-    if (!this._idCounter) {
-      this._idCounter = ref(0);
-    }
-
-    return this._idCounter;
+  static loadFromStorage() {
+    this.fetchAll();
   }
 
-	static nextId() {
-		this.idCounter.value += 1;
-		return this.idCounter.value;
-	}
-
-	static saveToStorage() {
-		window.localStorage.setItem(
-			this.modelKey,
-			JSON.stringify(this.list.value, propertyFilter),
-		);
-
-		window.localStorage.setItem(this.counterKey, this.idCounter.value);
-	}
-
-  static loadFromStorage() {
-    const data = window.localStorage.getItem(this.modelKey);
-    if (typeof data === "string") {
-      const models = JSON.parse(data).map((values) => this.fromStorage(values));
+  static async fetchAll(){
+    try {
+      const res = await axios.get(`/api/${this.modelKey}`);
 
       this.list.value.splice(0);
-      this.list.value.push(...models);
+
+      res.data.forEach((id) => {
+        this.fetch(id);
+      })
+    } catch (err) {
+      // just do nothing.
+    }
+  }
+  
+  static async fetch(id){
+    const res = await axios.get(`/api/${this.modelKey}/${id}`);
+    
+    const model = this.fromStorage(res.data);
+    model.id = id;
+
+    const idx = this.list.value.findIndex((item) => item.id === model.id);
+    if (idx > -1) {
+      this.list.value.splice(idx, 1);
     }
 
-    this.idCounter.value = +window.localStorage.getItem(this.counterKey) || 0;
+    this.list.value.push(model);
+    return model;
+  }
+  
+  static async create(item){
+    const data = JSON.stringify(item, propertyFilter);
+    const res = await axios.post(`/api/${this.modelKey}`, data, { headers: { 'Content-Type': 'application/json' } });
+    const { id } = res.data;
+    item.id = id;
+
+    this.list.value.push(item);
+  }
+
+  static async update(item, attrs){
+    const { id, ...rest } = item;
+    const data = JSON.stringify(attrs, propertyFilter);
+    const res = await axios.put(`/api/${this.modelKey}/${id}`, data, { headers: { 'Content-Type': 'application/json' } });
+
+    const model = this.fromStorage(res.data);
+    model.id = id;
+
+    const idx = this.list.value.findIndex((item) => item.id === id);
+    if (idx > -1) {
+      this.list.value.splice(idx, 1, model);
+    }
+  }
+
+  static async destroy(item){
+    const { id, ...rest } = item;
+    const data = JSON.stringify(rest, propertyFilter);
+    const res = await axios.delete(`/api/${this.modelKey}/${id}`);
+
+    const idx = this.list.value.findIndex((item) => item.id === id);
+    if (idx > -1) {
+      this.list.value.splice(idx, 1);
+    }
   }
 
   static fromStorage(values = {}){
     const model = new this(values);
 
-    model.id = +values.id;
+    // model.id = +values.id;
 
     return model;
   }
@@ -97,28 +129,14 @@ export default class {
   }
 
   create() {
-    this.id = this.constructor.nextId();
-    
-    // TODO: validation goes here
-    this.$list.push(this);
-
-    this.constructor.saveToStorage();
+    this.constructor.create(this);
   }
 
   update(attrs = {}){
-
-    // TODO: validation goes here
-    Object.assign(this, attrs);
-
-    this.constructor.saveToStorage();
+    this.constructor.update(this, attrs);
   }
 
   destroy(){
-    const idx = this.$list.findIndex((model) => model.id === this.id)
-    if (idx > -1){
-      this.$list.splice(idx, 1)
-    }
-
-    this.constructor.saveToStorage();
+    this.constructor.destroy(this);
   }
 }
