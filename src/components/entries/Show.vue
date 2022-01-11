@@ -14,7 +14,6 @@
 	const route = useRoute();
 	const router = useRouter();
 
-	// const entry = computed(() => Entry.find(route.params.id));
 	const entry = ref(null);
 	Entry.fetch([route.params.id]).then(async (models) => {
 		entry.value = models[0];

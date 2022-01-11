@@ -19,6 +19,15 @@ class EntryItem extends Base {
 		entry.entryItemIds.push(this.id);
 		entry.update();
 	}
+
+	beforeDestroy() {
+		const entry = this.$entry.value;
+		const idx = entry.entryItemIds.indexOf(this.id);
+		if (idx > -1) {
+			entry.entryItemIds.splice(idx, 1);
+			entry.update();
+		}
+	}
 }
 
 // EntryItem.fetchAll();

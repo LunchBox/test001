@@ -1,4 +1,4 @@
-import { ref, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import propertyFilter from "../utils/property_filter.js";
 import axios from "axios";
 
